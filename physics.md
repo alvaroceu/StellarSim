@@ -1,6 +1,15 @@
 # Physics Behind StellarSim
 This document provides a detailed explanation of the physics calculations used in StellarSim, focusing on the simulation of gravitational interactions between celestial bodies
 
+## TIMESTEP constant: Simulation Speed
+In real-world physics, motion is continuous over time, and changes in velocity and position depend on the time elapsed. However, simulations like this one update positions and velocities in discrete steps (once per frame).
+
+Modern computers typically run at 60+ FPS, which means **60+ position updates per second** (effectively compressing time and making the simulation run *way to fast*!)
+
+To make the simulation behave realistically and avoid excessively fast movements, we introduce a 'TIMESTEP' constant.
+
+This constant represents a scaled-down unit of simulated time per update allowing us to control the simulation speed and maintain stable, natural motion.
+
 ## Gravitational Force and Acceleration
 To simulate realistic planetary motion, StellarSims uses Newton´s Law of Universal Gravitation
 
@@ -25,7 +34,9 @@ So the force vector components are:
 ###### Fy = F * dy/d
 
 ### Acceleration
-According to Newton's second law: a = F/m
+According to Newton's second law: 
+
+###### a = F/m
 
 We apply this to each axis separately:
 
@@ -33,5 +44,5 @@ We apply this to each axis separately:
 
 ###### ay = Fy/m = F * dy/d /m
 
-This acceleration is used to update the velocity and position of the body over time
+This acceleration (multiplied by TIMESTEP) is used to update the velocity and position of the body over time
 
