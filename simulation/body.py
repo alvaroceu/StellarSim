@@ -44,10 +44,10 @@ class Body:
         self.ay = total_ay
 
     def movement(self):
-        self.vx += self.ax
-        self.vy += self.ay
-        self.x += self.vx
-        self.y += self.vy
+        self.vx += self.ax * TIMESTEP
+        self.vy += self.ay * TIMESTEP
+        self.x += self.vx * TIMESTEP
+        self.y += self.vy * TIMESTEP
 
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, (self.x, self.y), self.radius)
