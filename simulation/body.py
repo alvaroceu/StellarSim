@@ -1,4 +1,6 @@
 import pygame
+import math
+from config import *
 
 class Body:
 
@@ -10,8 +12,40 @@ class Body:
         self.mass = mass
         self.vx = vx # Velocity (pixels/frame)
         self.vy = vy
+        self.ax = 0 # Acceleration
+        self.ay = 0
+
+    def apply_gravity(self, others):
+        total_ax = 0
+        total_ay = 0
+
+        for other in others:
+            if other is self:
+                continue
+            
+            # Distance calculation
+            dx = other.x - self.x
+            dy = other.y - self.y
+            distance = math.hypot(dx, dy)
+
+            if distance == 0:
+                continue # Avoid /0
+            
+            # Gravitational force: F = G * (m1 * m2) / r^2
+            force = G * self.mass * other.mass / distance**2
+            # Acceleration in each axis
+            ax = force * (dx/distance) / self.mass
+            ay = force * (dy/distance) / self.mass
+
+            total_ax += ax
+            total_ay += ay
+        
+        self.ax = total_ax
+        self.ay = total_ay
 
     def movement(self):
+        self.vx += self.ax
+        self.vy += self.ay
         self.x += self.vx
         self.y += self.vy
 
