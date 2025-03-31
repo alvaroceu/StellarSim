@@ -16,8 +16,8 @@ YELLOW = (255, 255, 0)
 BLUE = (100, 149, 237) 
 
 # Create bodies
-sun = Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 1.989e30, 0, 0)
-planetA = Body(WIDTH/2 + 150, HEIGHT/2, 5, BLUE, 5.972e24, 0.1, 0.1)
+sun = Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)
+planetA = Body(WIDTH/2 + 150, HEIGHT/2, 5, BLUE, 1, 0, 3.5)
 
 bodies = [sun, planetA]
 
@@ -36,7 +36,8 @@ while running:
     # Update and draw bodies
     for body in bodies:
 
-        planetA.movement()
+        body.apply_gravity(bodies)
+        body.movement()
         body.draw(WINDOW)
 
     # Update display
