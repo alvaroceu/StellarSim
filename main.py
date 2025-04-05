@@ -1,6 +1,7 @@
 import pygame
 import sys
 from simulation.body import *
+from simulation.physics import *
 
 # Initialize pygame
 pygame.init()
@@ -17,7 +18,8 @@ BLUE = (100, 149, 237)
 
 # Create bodies
 sun = Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)
-planetA = Body(WIDTH/2 + 150, HEIGHT/2, 5, BLUE, 1, 0, 3.5)
+planetA = Body(WIDTH/2 + 150, HEIGHT/2, 5, BLUE, 1, 0, 0)
+planetA.set_circular_orbit(sun)
 
 bodies = [sun, planetA]
 

@@ -1,6 +1,8 @@
 import pygame
 import math
 from config import *
+from simulation.physics import *
+
 
 class Body:
 
@@ -42,6 +44,13 @@ class Body:
         
         self.ax = total_ax
         self.ay = total_ay
+
+    def set_circular_orbit(self, main_mass):
+        dx = self.x - main_mass.x
+        dy = self.y - main_mass.y
+        vx, vy = calculate_circular_orbit_velocity(G, main_mass.mass, dx, dy)
+        self.vx = vx
+        self.vy = vy
 
     def movement(self):
         self.vx += self.ax * TIMESTEP
