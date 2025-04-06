@@ -51,6 +51,12 @@ class Body:
         vx, vy = calculate_circular_orbit_velocity(G, main_mass.mass, dx, dy)
         self.vx = vx
         self.vy = vy
+    
+    def is_colliding(self, other):
+        dx = self.x - other.x
+        dy = self.y - other.y
+        distance = math.hypot(dx,dy)
+        return distance <= (self.radius + other.radius)
 
     def movement(self):
         self.vx += self.ax * TIMESTEP
