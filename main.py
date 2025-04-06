@@ -17,21 +17,38 @@ YELLOW = (255, 255, 0)
 BLUE = (100, 149, 237) 
 
 # Create bodies
-sun = Body(WIDTH/2, HEIGHT/2, 30, YELLOW, 2000, 0, 0)
-planetA = Body(WIDTH/2 + 150, HEIGHT/2, 25, BLUE, 2000, 0, 0)
-planetA.set_circular_orbit(sun)
-
-bodies = [sun, planetA]
+sun = Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)
+bodies = [sun]
 
 
 # Main loop
 running = True
+selected_body_type = "planet" # Default selected body
+
 while running:
     # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
+        # Select new bodies to create
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                selected_body_type = "star"
+                print("Selected type: star")
+            elif event.key == pygame.K_2:
+                selected_body_type = "planet"
+                print("Selected type: planet")
+        # Create selected body
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mx, my = pygame.mouse.get_pos()
+            if selected_body_type == "star":
+                new_body = Body(mx, my, 20, YELLOW, 2000, 0, 0)
+                bodies.append(new_body)
+            elif selected_body_type == "planet":
+                new_body = Body(mx, my, 5, BLUE, 1, 0, 0)
+                bodies.append(new_body)
+                new_body.set_circular_orbit(sun)
+
     # Fill background
     WINDOW.fill(BLACK)
 
