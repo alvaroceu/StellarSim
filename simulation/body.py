@@ -77,15 +77,15 @@ class Body:
         distance = math.hypot(dx,dy)
         return distance <= (self.radius + other.radius)
 
-    def movement(self):
+    def movement(self, timestep):
         """
         Updates this body's position and velocity based on acceleration.
         """
 
-        self.vx += self.ax * TIMESTEP
-        self.vy += self.ay * TIMESTEP
-        self.x += self.vx * TIMESTEP
-        self.y += self.vy * TIMESTEP
+        self.vx += self.ax * timestep
+        self.vy += self.ay * timestep
+        self.x += self.vx * timestep
+        self.y += self.vy * timestep
 
     def draw(self, surface):
         """

@@ -30,12 +30,15 @@ def draw_interface(surface, selected_body_type, current_params):
     controls_y = 10
     controls_text = [
         "Controls:",
+        "",
         "1 = Star, 2 = Planet",
         "Q/E = Select color",
         "W/S = Select mass",
         "A/D = Select radius",
         "Click = Add body",
+        "",
         "Space = Pause/Resume",
+        "+/- = Change speed",
         "R = Reset simulation"
     ]
 

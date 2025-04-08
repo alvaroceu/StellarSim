@@ -37,6 +37,8 @@ class Simulation:
             WHITE, 
         ]
         self.color_index = 0
+
+        self.timestep = TIMESTEP
     
     def run(self):
         """
@@ -80,6 +82,12 @@ class Simulation:
                     self.sun = Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)
                     self.bodies = [self.sun]
                     print("Simulation reset")
+                elif event.key == pygame.K_PLUS:
+                    self.timestep = round(self.timestep + 0.2,2)
+                    print(f"Simulation speed: {self.timestep}")
+                elif event.key == pygame.K_MINUS and self.timestep > 0.2:
+                    self.timestep = round(self.timestep - 0.2,2)
+                    print(f"Simulation speed: {self.timestep}")
 
                 # Change mass
                 elif event.key == pygame.K_w:
@@ -120,7 +128,7 @@ class Simulation:
         if not self.paused:
             for body in self.bodies:
                 body.apply_gravity(self.bodies)
-                body.movement()
+                body.movement(self.timestep)
             
             # Detect and handle collisions
             to_remove = set()
