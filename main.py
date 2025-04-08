@@ -78,6 +78,7 @@ def draw_interface(surface):
 
 # Main loop
 running = True
+paused = False
 selected_body_type = "planet" # Default selected body
 
 while running:
@@ -96,6 +97,14 @@ while running:
             elif event.key == pygame.K_2:
                 selected_body_type = "planet"
                 print("Selected type: planet")
+
+            # Simulation control keys
+            elif event.key == pygame.K_SPACE:
+                paused = not paused
+                print("Paused" if paused else "Resumed")
+            elif event.key == pygame.K_r:
+                bodies = [Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)]
+                print("Simulation reset")
 
             # Change mass
             elif event.key == pygame.K_w:
@@ -132,10 +141,12 @@ while running:
     WINDOW.fill(BLACK)
 
     # Update and draw bodies
-    for body in bodies:
+    if not paused:
+        for body in bodies:
 
-        body.apply_gravity(bodies)
-        body.movement()
+            body.apply_gravity(bodies)
+            body.movement()
+    for body in bodies:
         body.draw(WINDOW)
     
     # Detect and handle collisions
