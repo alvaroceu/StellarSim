@@ -103,7 +103,8 @@ while running:
                 paused = not paused
                 print("Paused" if paused else "Resumed")
             elif event.key == pygame.K_r:
-                bodies = [Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)]
+                sun = Body(WIDTH/2, HEIGHT/2, 20, YELLOW, 2000, 0, 0)
+                bodies = [sun]
                 print("Simulation reset")
 
             # Change mass
