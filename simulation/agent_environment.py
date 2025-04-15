@@ -42,9 +42,11 @@ class AgentSimulation:
 
         # Agent decision based on his knowledge
         start_x, start_y = random_position_around(self.sun, 300)
+        dx = start_x - self.sun.x
+        dy = start_y - self.sun.y
         planet = Body(start_x, start_y, 5, BLUE, 1, 0, 0)
 
-        velocity, angle = self.agent.select_action()
+        velocity, angle = self.agent.select_action(dx, dy)
         planet.vx = velocity * math.cos(angle)
         planet.vy = velocity * math.sin(angle)
 
