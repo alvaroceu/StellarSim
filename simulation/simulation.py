@@ -4,6 +4,7 @@ from simulation.body import Body
 from simulation.physics import *
 from ui.interface import draw_interface
 from simulation.config import *
+from simulation.agent_environment import AgentSimulation
 
 class Simulation:
     """
@@ -88,6 +89,14 @@ class Simulation:
                 elif event.key == pygame.K_MINUS and self.timestep > 0.2:
                     self.timestep = round(self.timestep - 0.2,2)
                     print(f"Simulation speed: {self.timestep}")
+
+                # Switch to experimental mode
+                elif event.key == pygame.K_x:
+                    self.running = False
+                    agent_sim = AgentSimulation()
+                    agent_sim.run()
+                    print("Switching to experimental mode...")
+
 
                 # Change mass
                 elif event.key == pygame.K_w:
