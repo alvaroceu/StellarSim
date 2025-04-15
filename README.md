@@ -3,10 +3,10 @@
 
 _A personal learning project combining physics, simulation and reinforcement learning._
 
-### Summary
+## Summary
 StellarSim is a 2D simulator of planetary systems driven by physics and reinforcement learning. It features real-time interaction and an AI agent that learns to place planets into orbit.
 
-### Main goals
+## Main goals
 
 - Create celestial bodies with customizable properties
 - Simulate gravity and orbital mechanics
@@ -14,10 +14,10 @@ StellarSim is a 2D simulator of planetary systems driven by physics and reinforc
 - Interactive menu to explore and modify the stellar systems
 - Add an AI agent capable of learning orbital strategies using Q-learning
 
-### Physics behind the simulation
+## Physics behind the simulation
 This project uses real-world physics formulas to simulate gravitational forces and motion between celestial bodies. For a detailed explanation of the calculations made, see [physics.md](physics.md)
 
-### AI: Experimental mode
+## AI: Experimental mode
 In the experimental mode, an RL agent attempts to learn how to launch planets into orbit. It does so by:
 
 - Observing the planet's initial position relative to the sun
@@ -26,14 +26,14 @@ In the experimental mode, an RL agent attempts to learn how to launch planets in
 
 The agent improves by trial and error, forming a Q-table that guides future decisions.
 
-### Background
+## Background
 **What is the problem your idea will solve?**  
 It provides a visual, hands-on way to understand basic reinforcement learning in a dynamic environment.
 
 **Why is this topic important or interesting?**  
 Because it connects physics and AI in a tangible, visual experiment that is easy to explore and iterate.
 
-### How it is used
+## How it is used
 Currently, the project runs locally and does not include a standalone installer. To use it:
 
 #### Requirements
@@ -56,15 +56,15 @@ Currently, the project runs locally and does not include a standalone installer.
     python main.py
 
 
-### Project Purpose
+## Project Purpose
 This is a personal, learning-oriented project designed to explore physics simulation, interactive graphics, system dynamics and artificial intelligence in one place. A great opportunity to improve skills in development, visualization, and computational modeling.
 
-### Acknowledgements
+## Acknowledgements
 - University of Helsinki – Building AI Course 
 - Pygame for 2D graphics
 - Inspired by space physics and classic orbital mechanics problems
 
-### Controls Overview
+## Controls Overview
 | Key    | Action                         |
 |--------|--------------------------------|
 | 1 / 2  | Select star / planet           |
