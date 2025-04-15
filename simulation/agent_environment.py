@@ -29,6 +29,7 @@ class AgentSimulation:
 
         self.agent = RLAgent() # Simultion agent
 
+        self.update_episode_max_duration()
         self.reset_episode()
 
     def reset_episode(self):
@@ -65,6 +66,19 @@ class AgentSimulation:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            
+            # Key events
+            elif event.type == pygame.KEYDOWN:
+
+                # Simulation control keys
+                if event.key == pygame.K_PLUS:
+                    self.timestep = round(self.timestep + 0.2,2)
+                    self.update_episode_max_duration()
+                    print(f"Simulation speed: {self.timestep}")
+                elif event.key == pygame.K_MINUS and self.timestep > 0.2:
+                    self.timestep = round(self.timestep - 0.2,2)
+                    self.update_episode_max_duration()
+                    print(f"Simulation speed: {self.timestep}")
 
     def update(self):
         if not self.bodies:
@@ -111,6 +125,19 @@ class AgentSimulation:
         label = font.render(f"Episode: {self.episode}", True, WHITE)
         self.window.blit(label, (10, 10))
 
+        # Controls panel
+        controls_y = 10
+        controls_text = [
+            "Controls:",
+            "",
+            "+/- = Change speed",
+        ]
+
+        for line in controls_text:
+            control_label = font.render(line, True, WHITE)
+            self.window.blit(control_label, (780, controls_y))
+            controls_y += 25
+
     def evaluate_episode(self):
         """
         Calculates the reward for the last episode and updates the agent.
@@ -129,6 +156,18 @@ class AgentSimulation:
                 reward = 0
 
         self.agent.give_feedback(reward)
+    
+    def update_episode_max_duration(self):
+        """
+        Updates the max duration of an episode (in frames) based on timestep speed.
+        Ensures the simulation always runs for 20 seconds of simulated time.
+        """
+        fps = 60
+        sim_seconds = 20
+
+        # Total frames needed = total simulated seconds / timestep * fps
+        self.episode_max_time = int((sim_seconds / self.timestep) * fps)
+
 
 def random_position_around(center, radius):
     """
