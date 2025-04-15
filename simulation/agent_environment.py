@@ -19,6 +19,10 @@ class AgentSimulation:
         self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("StellarSim - Experimental Mode")
 
+        self.total_rewards = [] # Global history of all episode outcomes
+        self.recent_rewards = [] # Rolling window for UI
+        self.recent_window_size = 15 # How many results to show in interface
+
         self.clock = pygame.time.Clock()
         self.running = True
         self.timestep = TIMESTEP
@@ -124,8 +128,26 @@ class AgentSimulation:
 
     def draw_episode_info(self):
         font = pygame.font.SysFont("consolas", 18)
-        label = font.render(f"Episode: {self.episode}", True, WHITE)
-        self.window.blit(label, (10, 10))
+
+        y = 10
+        spacing = 25
+
+        def draw_line(text):
+            nonlocal y
+            label = font.render(text, True, WHITE)
+            self.window.blit(label, (10, y))
+            y += spacing
+
+        draw_line(f"Episode: {self.episode}")
+
+        if self.total_rewards:
+            total_successes = sum(1 for r in self.total_rewards if r == 1)
+            success_rate = total_successes / len(self.total_rewards) * 100
+            draw_line(f"Global success rate: {success_rate:.1f}%")
+
+        if self.recent_rewards:
+            last_results = ''.join([':) ' if r == 1 else ':( ' for r in self.recent_rewards])
+            draw_line(f"Recent episodes: {last_results}")
 
         # Controls panel
         controls_y = 10
@@ -158,6 +180,13 @@ class AgentSimulation:
                 reward = 0
 
         self.agent.give_feedback(reward)
+
+        # Track reward
+        self.total_rewards.append(reward)
+
+        self.recent_rewards.append(reward)
+        if len(self.recent_rewards) > self.recent_window_size:
+            self.recent_rewards.pop(0)
     
     def update_episode_max_duration(self):
         """
