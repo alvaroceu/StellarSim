@@ -2,8 +2,7 @@ import pygame
 import sys
 import random
 import math
-
-from body import Body
+from simulation.body import Body
 from simulation.config import *
 from simulation.physics import *
 
