@@ -5,6 +5,8 @@ import math
 from simulation.body import Body
 from simulation.config import *
 from simulation.physics import *
+from agents.rl_agent import RLAgent
+
 
 class AgentSimulation:
     """
@@ -25,6 +27,8 @@ class AgentSimulation:
         self.episode_duration = 0
         self.episode_max_time = 20 * 60  # 20 seconds at 60 FPS
 
+        self.agent = RLAgent() # Simultion agent
+
         self.reset_episode()
 
     def reset_episode(self):
@@ -35,12 +39,11 @@ class AgentSimulation:
         self.sun = Body(WIDTH / 2, HEIGHT / 2, 20, YELLOW, 2000, 0, 0)
         self.bodies = [self.sun]
 
-        # Agent decision (for now: random velocity and angle)
+        # Agent decision based on his knowledge
         start_x, start_y = random_position_around(self.sun, 300)
         planet = Body(start_x, start_y, 5, BLUE, 1, 0, 0)
 
-        velocity = random.uniform(0, 5)
-        angle = random.uniform(0, 2 * math.pi)
+        velocity, angle = self.agent.select_action()
         planet.vx = velocity * math.cos(angle)
         planet.vy = velocity * math.sin(angle)
 
@@ -75,6 +78,7 @@ class AgentSimulation:
 
         if self.episode_over():
             print(f"Episode {self.episode} ended")
+            self.evaluate_episode()
             self.reset_episode()
 
     def episode_over(self):
@@ -106,6 +110,25 @@ class AgentSimulation:
         font = pygame.font.SysFont("consolas", 18)
         label = font.render(f"Episode: {self.episode}", True, WHITE)
         self.window.blit(label, (10, 10))
+
+    def evaluate_episode(self):
+        """
+        Calculates the reward for the last episode and updates the agent.
+        """
+        if len(self.bodies) < 2:
+            reward = -1  # Planet destroyed or not created
+        else:
+            planet = self.bodies[1]
+            if planet.is_colliding(self.sun):
+                reward = -1
+            elif planet.x < 0 or planet.x > WIDTH or planet.y < 0 or planet.y > HEIGHT:
+                reward = -1
+            elif self.episode_duration >= self.episode_max_time:
+                reward = 1  # Successful orbit
+            else:
+                reward = 0
+
+        self.agent.give_feedback(reward)
 
 def random_position_around(center, radius):
     """
